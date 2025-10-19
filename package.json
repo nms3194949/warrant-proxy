@@ -1,0 +1,9 @@
+{
+  "name": "warrant-proxy-api",
+  "version": "1.0.0",
+  "description": "Proxy for Yuanta Warrant CSV data",
+  "dependencies": {
+    "iconv-lite": "^0.6.3",
+    "node-fetch": "^2.6.7"
+  }
+}
