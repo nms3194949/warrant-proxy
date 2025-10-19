@@ -1,5 +1,5 @@
 // --- Vercel 專用版 api/get-warrants-csv.js ---
-// (已修正 Content-Type 錯字)
+// (已移除所有手動 CORS 設定，改用 vercel.json)
 
 const fetch = require('node-fetch');
 const { URLSearchParams } = require('url');
@@ -7,16 +7,7 @@ const iconv = require('iconv-lite');
 
 export default async function handler(req, res) {
     
-    // --- CORS 跨域設定 (允許您的 github.io 網站) ---
-    res.setHeader('Access-Control-Allow-Origin', 'https://nms3194949.github.io');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
-    // --- CORS 設定結束 ---
-
+    // 只允許 GET 請求
     if (req.method !== 'GET') {
         return res.status(405).send({ message: 'Only GET requests allowed' });
     }
@@ -45,26 +36,24 @@ export default async function handler(req, res) {
             method: 'POST',
             body: params,
             headers: {
-                // *** 【MOMO 修正】 就是這裡！ 'x-wWw' 已改回 'x-www' ***
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
                 'Referer': 'https://www.warrantwin.com.tw/eyuanta/Warrant/Search.aspx'
             }
         });
 
         if (!response.ok) {
-            // 如果元大伺服器回傳錯誤，Vercel 也會回傳錯誤
             throw new Error(`Yuanta Server Error: ${response.statusText}`);
         }
 
         const buffer = await response.arrayBuffer();
         const csvData = iconv.decode(Buffer.from(buffer), 'big5');
         
+        // 直接回傳資料
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
         res.status(200).send(csvData);
 
     } catch (error) {
         console.error(error);
-        // 將詳細錯誤回傳給前端，方便除錯
         res.status(500).send(`Error fetching data from Yuanta: ${error.message}`);
     }
 }
