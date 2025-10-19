@@ -1,10 +1,11 @@
 // --- Vercel 專用版 api/get-warrants-csv.js ---
-// (已移除所有手動 CORS 設定，改用 vercel.json)
+// 【MOMO 修正】 全面改用 'import' 語法
 
-const fetch = require('node-fetch');
-const { URLSearchParams } = require('url');
-const iconv = require('iconv-lite');
+import fetch from 'node-fetch';
+import { URLSearchParams } from 'url';
+import iconv from 'iconv-lite';
 
+// (下面這行 'export default' 本來就是 ES Module 語法)
 export default async function handler(req, res) {
     
     // 只允許 GET 請求
