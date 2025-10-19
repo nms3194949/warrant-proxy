@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "API proxy for Yuanta warrants",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "echo 'No build step needed, just installing dependencies'"
+    "build": "echo 'Build script not needed, but good to have.'"
   },
   "dependencies": {
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^3.3.0",
     "iconv-lite": "^0.6.3"
   }
 }
