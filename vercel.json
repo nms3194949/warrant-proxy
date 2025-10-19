@@ -1,5 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "functions": {
+    "api/get-warrants-csv.js": {
+      "maxDuration": 30
+    }
+  },
+
   "headers": [
     {
       "source": "/api/(.*)",
